@@ -1,4 +1,5 @@
 from panda import Panda
+import json
 
 
 class PandaAlreadyThere(Exception):
@@ -54,7 +55,7 @@ class PandaSocialNetwork:
 
         result = find_shortest_path(self.network_dict, start, end, path=[])
 
-        if result == None:
+        if result is None:
             return 0
 
         return len(result) - 1
@@ -66,11 +67,48 @@ class PandaSocialNetwork:
         gender_counter = 0
 
         for next_panda in self.network_dict.keys():
-             if next_panda != panda:
+            if next_panda != panda:
                 if self.connection_level(panda, next_panda) == level and next_panda.get_gender() == gender:
                     gender_counter += 1
 
         return gender_counter
+
+    def get_friends_of_panda(self, panda):
+        return [panda.get_name() for panda in self.network_dict[panda]]
+
+    def save_to_file(self):
+        members = {}
+        for member in self.network_dict.keys():
+            members[member.get_name()] = member.__dict__
+
+        with open('panda_network_members.txt', 'w') as outfile:
+            outfile.write(json.dumps(members))
+
+        friends = {}
+        for current_panda in self.network_dict.keys():
+            friends[current_panda.get_name()] = self.get_friends_of_panda(current_panda)
+
+        with open('panda_network_friends.txt', 'w') as outfile:
+            outfile.write(json.dumps(friends))
+
+    def load_from_file(self):
+        members = {}
+        with open('panda_network_members.txt', 'r') as infile:
+            members = json.load(infile)
+
+        for panda in members.keys():
+            self.add_panda(Panda(members[panda]['name'], members[panda]['email'], members[panda]['gender']))
+
+        friends = {}
+        with open('panda_network_friends.txt', 'r') as infile:
+            friends = json.load(infile)
+
+        for panda in friends.keys():
+            for friend_panda in friends[panda]:
+                some_panda = Panda(members[panda]['name'], members[panda]['email'], members[panda]['gender'])
+                some_panda_friend = Panda(members[friend_panda]['name'], members[friend_panda]['email'], members[friend_panda]['gender'])
+                if self.are_friends(some_panda, some_panda_friend) is False:
+                    self.make_friends(some_panda, some_panda_friend)
 
 
 def find_all_paths(graph, start, end, path=[]):
@@ -111,3 +149,25 @@ def find_shortest_path(graph, start, end, path=[]):
                     shortest = newpath
 
     return shortest
+
+
+network = PandaSocialNetwork()
+
+ivo = Panda("Ivo", "ivo@pandamail.com", "male")
+rado = Panda("Rado", "rado@pandamail.com", "male")
+mimi = Panda('Mimi', 'mimi@mail.bg', 'female')
+gosho = Panda('Gosho', 'gosho@mail.bg', 'male')
+pesho = Panda('Pesho', 'pesho@mail.bg', 'male')
+
+network.add_panda(pesho)
+
+network.make_friends(ivo, rado)
+network.make_friends(ivo, gosho)
+network.make_friends(ivo, mimi)
+network.make_friends(rado, mimi)
+
+network.save_to_file()
+
+# network.load_from_file()
+
+print (network.network_dict)
