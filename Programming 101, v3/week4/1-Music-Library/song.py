@@ -35,8 +35,6 @@ class Song:
     def get_info(self):
         return [self.artist, self.title, self.length]
 
-
-s = Song(title="Odin", artist="Manowar",
-         album="The Sons of Odin", length="3:44")
-
-# print (s.get_length())
+    def prepare_json(self):
+        song_dict = self.__dict__
+        return {key: song_dict[key] for key in song_dict if not key.startswith("_")}
