@@ -1,6 +1,7 @@
 from song import Song
 from random import randint
 from tabulate import tabulate
+import json
 
 
 class Playlist:
@@ -87,40 +88,59 @@ class Playlist:
 
         print (tabulate(table, headers, tablefmt="orgtbl"))
 
+    def save_playlist(self, filename):
+        songs = {}
 
-# s = Song(title="Odin", artist="Manowar",
-#          album="The Sons of Odin", length="3:44")
+        filename = normalize_filename(filename)
 
-# p = Song(title="Choko", artist="Peshko",
-#          album="Tdsdasd", length="2:99")
+        for song in self.songs_list:
+            songs[str(song)] = song.__dict__
 
-# k = Song(title="Bauuu", artist="Goshko",
-#          album="Minsda", length="1:24")
+        with open(filename, "w") as outfile:
+            outfile.write(json.dumps(songs))
 
-# q = Song(title="jokooo", artist="Asan",
-#          album="midsad", length="4:24")
+    def load_playlist(self, filename):
+        songs = {}
 
-# code_songs = Playlist("Code", True, True)
+        with open(filename, "r") as infile:
+            songs = json.load(infile)
 
-# code_songs.add_songs([s, p, k, q])
+        for song in songs.keys():
+            self.add_song(Song(songs[song]['title'], songs[song][
+                          'artist'], songs[song]['album'], songs[song]['length']))
 
-# code_songs.pprint_playlist()
+    # from the solution
+    # another possible realization of the json problem
+    def prepare_json(self):
+        data = {
+            "name": self.name,
+            "songs": [song.prepare_json() for song in self.songs_list]
+        }
 
-# for song in code_songs.songs_list:
-#     print (song.title)
+        return data
 
-# print (10 * '-')
+    def save(self, indent=True):
+        filename = self.name.replace(" ", "-") + ".json"
 
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
-# print (code_songs.next_song())
+        with open(filename, "w") as f:
+            f.write(json.dumps(self.prepare_json(), indent=indent))
+
+    @staticmethod
+    def load(filename):
+        with open(filename, "r") as f:
+            contents = f.read()
+            data = json.loads(contents)
+            p = Playlist(data["name"])
+
+            for dict_song in data["songs"]:
+                song = Song(artist=dict_song["artist"], title=dict_song["title"], album=dict_song["album"], length=dict_song["length"])
+                p.add_song(song)
+
+            return p
+
+
+def normalize_filename(filename):
+    filename_list = filename.split(' ')
+    result = '-'.join(filename_list)
+
+    return result
