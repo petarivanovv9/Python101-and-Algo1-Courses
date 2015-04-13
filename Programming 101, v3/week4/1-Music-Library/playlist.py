@@ -24,19 +24,22 @@ class Playlist:
 
     def total_length(self):
 
-        sum_seconds = 0
+        sum_total_length = 0
         for song in self.songs_list:
-            sum_seconds += song.get_length('seconds')
+            sum_total_length += song.get_length('seconds')
 
-        sum_minutes = 0
-        for song in self.songs_list:
-            sum_minutes += song.get_length('minutes')
+        hours = sum_total_length // 3600
+        minutes = (sum_total_length - hours * 3600) // 60
+        seconds = sum_total_length - hours * 3600 - minutes * 60
 
-        return '{}:{}'.format(sum_minutes, sum_seconds)
+        if hours == 0:
+            return '{}:{}'.format(minutes, seconds)
+        else:
+            return '{}:{}:{}'.format(hours, minutes, seconds)
 
-    def artists(self):
+    def get_artists(self):
         artists_histogram = {}
-        artists = [x for x in self.songs_list.artist]
+        artists = [x.artist for x in self.songs_list]
 
         for artist in artists:
             if artist in artists_histogram:
@@ -56,13 +59,14 @@ class Playlist:
                     rand_indx = randint(0, size)
                     current_song = self.songs_list.pop(rand_indx)
                     self.copy_songs_list.append(current_song)
-                    print ("HEREEEE")
+
                     return current_song
                 else:
                     size = len(self.songs_list) - 1
                     rand_indx = randint(0, size)
                     current_song = self.songs_list.pop(rand_indx)
                     self.copy_songs_list.append(current_song)
+
                     return current_song
             else:
                 if len(self.songs_list) == 0:
@@ -70,10 +74,12 @@ class Playlist:
                     self.copy_songs_list = []
                     current_song = self.songs_list.pop(0)
                     self.copy_songs_list.append(current_song)
+
                     return current_song
                 else:
                     current_song = self.songs_list.pop(0)
                     self.copy_songs_list.append(current_song)
+
                     return current_song
         else:
             if self.shuffle is True:
