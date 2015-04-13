@@ -1,6 +1,6 @@
 class Song:
 
-    def __init__(self, title='Unknown', artist='Unknown', album='Unknown', length='0'):
+    def __init__(self, title='Unknown', artist='Unknown', album='Unknown', length='0', path=''):
         self.title = title
         self.artist = artist
         self.album = album

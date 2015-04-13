@@ -4,6 +4,7 @@ from playlist import Playlist
 import os
 import glob
 from mutagen.mp3 import MP3
+import datetime
 
 
 class MusicCrawler:
@@ -12,6 +13,7 @@ class MusicCrawler:
         self.path = path
 
     def generate_playlist(self):
+        files_in_dir = [x for x in os.listdir(self.path) if x.endswith('.mp3')]
         songs = []
         os.chdir(self.path)
 
@@ -34,7 +36,8 @@ class MusicCrawler:
                 current_album = audio['TALB']
             else:
                 current_album = ''
-            current_length = audio.info.length
+            current_length = str(
+                datetime.timedelta(seconds=int(audio.info.length)))
 
             new_playlist.songs_list.append(
                 Song(current_title, current_artist, current_album, current_length))
