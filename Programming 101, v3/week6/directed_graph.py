@@ -14,7 +14,7 @@ class DirectedGraph:
     def add_node(self, node):
         if node in self.nodes.keys():
             raise AlreadyThere
-        self.nodes.update({node: set()})
+        self.nodes[node] = set()
 
     def add_edge(self, node_a, node_b):
         if node_a not in self.nodes.keys():
