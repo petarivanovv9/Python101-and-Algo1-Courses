@@ -12,7 +12,6 @@ def main():
     information = requests.get(hack_bulgaria_api).json()
 
     courses = set()
-    students = []
 
     db = CreateHackBulgariaDatabase()
 
@@ -22,22 +21,22 @@ def main():
 
     for name in courses:
         db.add_course(name)
+
     db.database.commit()
 
     for item in information:
-        current_dict = {}
-        current_dict["name"] = item["name"]
-        current_dict["github"] = item["github"]
+        if item["github"] == "" or item["github"] == None:
+            item["github"] = "None"
+        current_student_id = db.add_student(item["name"], item["github"])
+        current_courses = item["courses"]
 
-        if current_dict["github"] == "" or current_dict["github"] == None:
-            current_dict["github"] = "None"
+        for course in current_courses:
+            current_course_id = db.get_course_id(course["name"])
+            current_student_group = course["group"]
+            db.add_students_to_courses(
+                current_student_id, current_course_id, current_student_group)
 
-        students.append(current_dict)
-
-    for student in students:
-        db.add_student(student["name"], student["github"])
     db.database.commit()
-
 
 if __name__ == '__main__':
     main()
