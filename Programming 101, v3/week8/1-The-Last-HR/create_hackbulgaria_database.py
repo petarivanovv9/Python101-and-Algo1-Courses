@@ -4,6 +4,7 @@ import sqlite3
 class CreateHackBulgariaDatabase:
 
     def __init__(self):
+
         create_students_table_query = """CREATE TABLE IF NOT EXISTS Students(
             student_id INTEGER PRIMARY KEY,
             student_name TEXT,
@@ -61,24 +62,18 @@ class CreateHackBulgariaDatabase:
                                             FROM Students""")
 
     def get_student_in_courses(self):
-        bam = self.cursor.execute("""SELECT student_name, course_id
-                                        FROM Students AS S
-                                        JOIN Students_to_Courses AS StoC
-                ON S.student_id=StoC.student_id""")
-
-        # opa = self.cursor.execute("""SELECT student_name, course_name, course_id
-        #     FROM  Students, Courses
-        #         JOIN Students_to_Courses AS StoC
-        #             ON S.student_id = StoC.student_id
-        #         JOIN Courses AS C
-        #             ON StoC.course_id = C.course_id
-        #         WHERE StoC.course_id = Courses.course_id""")
-
-        boom = self.cursor.execute("""SELECT student_name, course_name
+        return self.cursor.execute("""SELECT student_name, course_name
                 FROM Students S
                 INNER JOIN Students_to_Courses AS StoC
                 ON S.student_id = StoC.student_id
                 INNER JOIN Courses AS C
                 ON StoC.course_id = C.course_id""")
 
-        return boom
+    def get_student_with_more_courses(self):
+        return self.cursor.execute("""SELECT student_name
+                FROM Students S
+                INNER JOIN Students_to_Courses AS StoC
+                ON S.student_id = StoC.student_id
+                GROUP BY StoC.student_id
+                ORDER BY COUNT(StoC.student_id) DESC
+                LIMIT 5""")

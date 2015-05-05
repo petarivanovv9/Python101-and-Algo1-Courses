@@ -33,13 +33,11 @@ class CreateCompanyDatabase:
     def delete_employee(self, id_employee):
         employee = self.cursor.execute(
             '''SELECT name FROM company WHERE id = ?''', (id_employee))
+        name = employee.fetchone()["name"]
         self.cursor.execute(
             '''DELETE FROM company WHERE id = ?''', (id_employee))
-        # print (employee["name"])
-        # print (employee.fetchone()[0])
-        # return employee["name"]
-        # print (employee.fetchone()["name"])
-        # return employee.fetchone()["name"]
+
+        return name
 
     def update_employee(self, id_employee, name, monthly_salary, yearly_bonus, position):
         self.cursor.execute('''UPDATE company SET name = ?,

@@ -4,16 +4,18 @@ import requests
 class GithubPerson:
 
     GITHUB_API = "https://api.github.com/users/"
-    CLIENT_ID = "?client_id=f5ec483b648f040cdd57"
-    CLEINT_SECRET = "&client_secret=0d67a9185b976c353022c1b245f20e3326a6e4d2"
+    CLIENT_ID = ....
+    CLEINT_SECRET = ....
 
     def __init__(self, person_info_url):
         person_info = requests.get(person_info_url).json()
 
         self.login = person_info["login"]
         self.url = person_info["url"]
-        self.following_url = GITHUB_API + self.login + CLIENT_ID + CLEINT_SECRET + "/following"
-        self.followers_url = GITHUB_API + self.login + CLIENT_ID + CLEINT_SECRET + "/followers"
+        self.following_url = GithubPerson.GITHUB_API + self.login + \
+            "/following" + GithubPerson.CLIENT_ID + GithubPerson.CLIENT_SECRET
+        self.followers_url = GithubPerson.GITHUB_API + self.login + \
+            "/followers" + GithubPerson.CLIENT_ID + GithubPerson.CLIENT_SECRET
         self.followers_json = requests.get(self.followers_url).json()
         self.following_json = requests.get(self.following_url).json()
         self.followers = []
@@ -33,13 +35,17 @@ class GithubPerson:
 
     def make_followers(self):
         for follower in self.followers_json:
-            current_url = GithubPerson.GITHUB_API + follower["login"] + GithubPerson.CLIENT_ID + GithubPerson.CLEINT_SECRET
+            current_url = GithubPerson.GITHUB_API + \
+                follower["login"] + GithubPerson.CLIENT_ID + \
+                GithubPerson.CLIENT_SECRET
             current_person = GithubPerson(current_url)
             self.followers.append(current_person)
 
     def make_following(self):
         for following in self.following_json:
-            current_url = GithubPerson.GITHUB_API + following["login"] + GithubPerson.CLIENT_ID + GithubPerson.CLEINT_SECRET
+            current_url = GithubPerson.GITHUB_API + \
+                following["login"] + GithubPerson.CLIENT_ID + \
+                GithubPerson.CLIENT_SECRET
             current_person = GithubPerson(current_url)
             self.following.append(current_person)
 

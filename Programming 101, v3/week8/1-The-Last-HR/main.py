@@ -30,6 +30,13 @@ def list_student_in_courses(db):
         print ("{} - {}".format(item["student_name"], item["course_name"]))
 
 
+def list_student_with_more_courses(db):
+    student_with_more_courses = db.get_student_with_more_courses()
+
+    for item in student_with_more_courses:
+        print ("{}".format(item["student_name"]))
+
+
 def main():
     hack_bulgaria_api = "https://hackbulgaria.com/api/students/"
     information = requests.get(hack_bulgaria_api).json()
@@ -78,10 +85,9 @@ def main():
         elif user_command == 2:
             list_courses(db)
         elif user_command == 3:
-            # pass
             list_student_in_courses(db)
         elif user_command == 4:
-            pass
+            list_student_with_more_courses(db)
         elif user_command == 0:
             sys.exit()
         else:

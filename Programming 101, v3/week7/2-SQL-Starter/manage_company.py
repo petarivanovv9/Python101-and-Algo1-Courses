@@ -41,9 +41,7 @@ class ManageCompany:
         id_employee = input("id: ")
         employee = db.delete_employee(id_employee)
 
-        # print (employee)
-
-        # print ("dsa" + employee + "was deleted.")
+        print (employee + " was deleted.")
 
     @staticmethod
     def update_employee(db):
