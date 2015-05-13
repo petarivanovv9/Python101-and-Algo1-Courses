@@ -1,47 +1,48 @@
 import sqlite3
+from settings import DB_NAME, SQL_FILE
 from Client import Client
 
-conn = sqlite3.connect("bank.db")
+conn = sqlite3.connect(DB_NAME)
 cursor = conn.cursor()
 
 
 def create_clients_table():
-    create_query = '''create table if not exists
-        clients(id INTEGER PRIMARY KEY AUTOINCREMENT,
-                username TEXT,
-                password TEXT,
-                balance REAL DEFAULT 0,
-                message TEXT)'''
-
-    cursor.execute(create_query)
+    cursor.execute(SQL_FILE)
 
 
 def change_message(new_message, logged_user):
-    update_sql = "UPDATE clients SET message = '%s' WHERE id = '%s'" % (new_message, logged_user.get_id())
+    update_sql = "UPDATE clients SET message = ? WHERE id = ?", (
+        new_message, logged_user.get_id())
+
     cursor.execute(update_sql)
     conn.commit()
     logged_user.set_message(new_message)
 
 
 def change_pass(new_pass, logged_user):
-    update_sql = "UPDATE clients SET password = '%s' WHERE id = '%s'" % (new_pass, logged_user.get_id())
+    update_sql = "UPDATE clients SET password = ? WHERE id = ?", (
+        new_pass, logged_user.get_id())
     cursor.execute(update_sql)
     conn.commit()
 
 
 def register(username, password):
-    insert_sql = "insert into clients (username, password) values ('%s', '%s')" % (username, password)
+    insert_sql = "INSERT INTO clients (username, password) VALUES (?, ?)", (
+        username, password)
     cursor.execute(insert_sql)
     conn.commit()
 
 
 def login(username, password):
-    select_query = "SELECT id, username, balance, message FROM clients WHERE username = '%s' AND password = '%s' LIMIT 1" % (username, password)
+    select_query = """SELECT id, username, balance, message
+                    FROM clients
+                    WHERE username = ? AND password = ? LIMIT 1""", (
+        username, password)
 
     cursor.execute(select_query)
     user = cursor.fetchone()
 
-    if(user):
+    if (user):
         return Client(user[0], user[1], user[2], user[3])
     else:
         return False
