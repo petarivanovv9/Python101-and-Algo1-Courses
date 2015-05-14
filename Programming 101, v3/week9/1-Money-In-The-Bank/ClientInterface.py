@@ -1,0 +1,2 @@
+class ClientInterface:
+    pass

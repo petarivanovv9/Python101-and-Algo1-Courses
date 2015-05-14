@@ -10,7 +10,10 @@ import sql_manager
 class SqlManagerTests(unittest.TestCase):
 
     def setUp(self):
+        # current_dir = os.getcwd()
+        # os.chdir("..")
         sql_manager.create_clients_table()
+        # os.chdir(current_dir)
         sql_manager.register('Tester', '123')
 
     def tearDown(self):
@@ -18,12 +21,13 @@ class SqlManagerTests(unittest.TestCase):
 
     @classmethod
     def tearDownClass(cls):
-        os.remove("bank.db")
+        os.remove(DB_NAME)
 
     def test_register(self):
         sql_manager.register('Dinko', '123123')
 
-        sql_manager.cursor.execute('SELECT Count(*)  FROM clients WHERE username = (?) AND password = (?)', ('Dinko', '123123'))
+        sql_manager.cursor.execute(
+            'SELECT Count(*)  FROM clients WHERE username = (?) AND password = (?)', ('Dinko', '123123'))
         users_count = sql_manager.cursor.fetchone()
 
         self.assertEqual(users_count[0], 1)

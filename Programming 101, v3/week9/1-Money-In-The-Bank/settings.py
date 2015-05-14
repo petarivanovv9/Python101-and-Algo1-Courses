@@ -1,2 +1,2 @@
 DB_NAME = "bank.db"
-SQL_FILE = "tables.sql"
+DB_NAME, DB_SQL_STRUCTURE = "tables.sql"
