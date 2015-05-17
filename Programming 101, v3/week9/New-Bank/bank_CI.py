@@ -1,3 +1,6 @@
+import getpass
+
+
 # Bank Command Interface
 class BankCI:
 
@@ -46,7 +49,16 @@ class BankCI:
             command = input("Logged>> ")
 
     def register(self):
-        pass
+        username = input("Enter your username: ")
+        password = getpass.getpass(prompt="Enter your password: ")
+        reg_status = self.controller.register(username, password)
+
+        while not reg_status[0]:
+            print (reg_status[1])
+            password = getpass.getpass(prompt="Enter your password: ")
+            reg_status = self.controller.register(username, password)
+
+        print (reg_status[1])
 
     def login(self):
         pass

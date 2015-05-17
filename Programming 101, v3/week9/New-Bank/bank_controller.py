@@ -4,7 +4,10 @@ class BankController:
         self.manager = manager
 
     def register(self, username, password):
-        pass
+        if self.manager.register(username, password):
+            return [True, "Registration Successfull!"]
+        else:
+            return [False, "Your password is not strong enough!"]
 
     def login(self, username, password):
         pass
