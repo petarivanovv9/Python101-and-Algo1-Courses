@@ -53,5 +53,8 @@ docs/_build/
 # PyBuilder
 target/
 
-# Ignoring some setting files
+# Setting files
 email_settings.py
+
+# database files
+*.db
