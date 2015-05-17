@@ -29,6 +29,8 @@ class BankController:
             else:
                 self.blocked_users.update({username: 1})
 
+            print (self.blocked_users)
+
             return [False, "Login failed!"]
 
     @staticmethod
@@ -70,8 +72,15 @@ class BankController:
 
     def block_user(self, username):
         self.manager.add_blocked_user(username)
+        del self.blocked_users[username]
 
-        return "{} is blocked! for {} minutes".format(username, BLOCK_FOR_N_MINUTES)
+        print ("{} is blocked! for {} minutes".format(username, BLOCK_FOR_N_MINUTES))
 
     def update_blocked_users(self):
         self.manager.update_blocked_users()
+
+    def change_email(self, new_email, logged_user):
+        pass
+
+    def show_email(self, logged_user):
+        pass

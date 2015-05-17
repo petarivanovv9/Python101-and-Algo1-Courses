@@ -16,12 +16,19 @@ class BankCI:
         command = input("$$$> ")
 
         while command != "exit":
+
             if command == "register":
                 self.register()
+
             elif command == "login":
                 self.login()
+
             elif command == "help":
                 self.help()
+
+            elif command == "reset-password":
+                self.reset_password()
+
             else:
                 print ("Not a valid command!")
 
@@ -33,16 +40,28 @@ class BankCI:
         command = input("Logged>> ")
 
         while command != "exit":
+
             if command == "info":
                 self.show_info(logged_user)
+
             elif command == "changepass":
                 self.change_pass(logged_user)
+
             elif command == "change-message":
                 self.change_messagel(logged_user)
+
             elif command == "show-message":
                 print(logged_user.get_message())
+
+            elif command == "change-email":
+                self.change_email(logged_user)
+
+            elif command == "show-email":
+                self.show_email(logged_user)
+
             elif command == "help":
                 self.help_user()
+
             else:
                 print ("Not a valid command!")
 
@@ -85,6 +104,15 @@ class BankCI:
     def change_message(self, logged_user):
         pass
 
+    def change_email(self, logged_user):
+        pass
+
+    def show_email(self, logged_user):
+        pass
+
     def help_user(self):
         for line in self.controller.help_user():
             print (line)
+
+    def reset_password(self):
+        pass

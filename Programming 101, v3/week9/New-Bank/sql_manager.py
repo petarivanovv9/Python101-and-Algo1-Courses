@@ -107,6 +107,3 @@ class BankDatabaseManager:
         self.cursor.execute("""DELETE FROM Blocked_Users
             WHERE blocked_client_date <= ? """, (time, ))
         self.conn.commit()
-
-
-# Bam123@Bam
