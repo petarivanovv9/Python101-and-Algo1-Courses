@@ -53,4 +53,5 @@ docs/_build/
 # PyBuilder
 target/
 
-email_settings.txt
+# Ignoring some setting files
+email_settings.py
