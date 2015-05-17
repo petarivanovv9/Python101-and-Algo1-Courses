@@ -4,7 +4,7 @@ import re
 import hashlib
 from Client import Client
 import datetime
-from settings import BLOCK_FOR_N_MINUTES
+from settings import BLOCK_FOR_N_MINUTES, PASSWORD_MIN_LENGTH
 
 
 class BankDatabaseManager:
@@ -31,8 +31,13 @@ class BankDatabaseManager:
         self.cursor = self.conn.cursor()
 
     @staticmethod
-    def validate_password(password):
-        if re.match(r'[A-Za-z0-9@#$%^&+=]{8,}', password):
+    def validate_password(username, password):
+        are_there_digits = re.search(r'\d+', password)
+        are_there_uppercase_letter = re.search(r'[A-Z]+', password)
+        enough_length = len(password) >= PASSWORD_MIN_LENGTH
+        are_there_symbols = re.search('[\-\/\@\?\!\,\.\#\&\*]+', password)
+
+        if are_there_digits and are_there_uppercase_letter and enough_length and are_there_symbols and username not in password:
             return True
         else:
             return False
@@ -45,15 +50,18 @@ class BankDatabaseManager:
         return hex_dig
 
     def register(self, username, password):
-        if BankDatabaseManager.validate_password(password):
-            hashed_password = BankDatabaseManager.hash_password(password)
-            self.cursor.execute("""INSERT INTO Clients
-                (client_username, client_password)
-                VALUES (?, ?)""", (username, hashed_password))
-            self.conn.commit()
-            return True
-        else:
-            return False
+        try:
+            if BankDatabaseManager.validate_password(username, password):
+                hashed_password = BankDatabaseManager.hash_password(password)
+                self.cursor.execute("""INSERT INTO Clients
+                    (client_username, client_password)
+                    VALUES (?, ?)""", (username, hashed_password))
+                self.conn.commit()
+                return True
+            else:
+                return False
+        except:
+                return False
 
     def login(self, username, password):
         get_user_query = """SELECT client_id,

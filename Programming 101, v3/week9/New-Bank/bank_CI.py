@@ -55,6 +55,7 @@ class BankCI:
 
         while not reg_status[0]:
             print (reg_status[1])
+            username = input("Enter your username: ")
             password = getpass.getpass(prompt="Enter your password: ")
             reg_status = self.controller.register(username, password)
 

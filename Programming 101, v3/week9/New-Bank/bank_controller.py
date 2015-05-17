@@ -11,7 +11,7 @@ class BankController:
         if self.manager.register(username, password):
             return [True, "Registration Successfull!"]
         else:
-            return [False, "Your password is not strong enough!"]
+            return [False, "Your password is not strong enough or username is already used!"]
 
     def login(self, username, password):
         self.update_blocked_users()
@@ -21,7 +21,7 @@ class BankController:
             return [logged_user, "Login Successfull!"]
         else:
             # username = logged_user.get_username()
-            if username in self.blocked_users:
+            if username in self.blocked_users.keys():
                 self.blocked_users[username] += 1
 
                 if self.blocked_users[username] >= BLOCK_AFTER_N_FAILED_ATTEMPTS:
