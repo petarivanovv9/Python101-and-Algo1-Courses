@@ -61,13 +61,22 @@ class BankCI:
         print (reg_status[1])
 
     def login(self):
-        pass
+        username = input("Enter your username: ")
+        password = getpass.getpass(prompt="Enter your password: ")
+        login_status = self.controller.login(username, password)
+
+        if login_status[0]:
+            self.logged_menu(login_status[0])
+        else:
+            print (login_status[1])
 
     def help(self):
-        pass
+        for line in self.controller.help():
+            print (line)
 
-    def show_info(self):
-        pass
+    def show_info(self, logged_user):
+        for line in self.controller.show_info(logged_user):
+            print (line)
 
     def change_pass(self, logged_user):
         pass

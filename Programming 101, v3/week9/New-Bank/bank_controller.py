@@ -10,7 +10,12 @@ class BankController:
             return [False, "Your password is not strong enough!"]
 
     def login(self, username, password):
-        pass
+        logged_user = self.manager.login(username, password)
+
+        if logged_user:
+            return [logged_user, "Login Successfull!"]
+        else:
+            return [False, "Login failed!"]
 
     @staticmethod
     def help():
@@ -21,7 +26,7 @@ class BankController:
         result = ["You are: " + logged_user.get_username()]
         result.append("Your id is: " + str(logged_user.get_id()))
         result.append(
-            "Your balance is:" + str(logged_user.get_balance()) + '$')
+            "Your balance is: " + str(logged_user.get_balance()) + '$')
 
         return result
 

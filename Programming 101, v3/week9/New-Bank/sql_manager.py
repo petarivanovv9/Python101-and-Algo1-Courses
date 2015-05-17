@@ -2,6 +2,7 @@ import sqlite3
 import os
 import re
 import hashlib
+from Client import Client
 
 
 class BankDatabaseManager:
@@ -45,7 +46,7 @@ class BankDatabaseManager:
         if BankDatabaseManager.validate_password(password):
             hashed_password = BankDatabaseManager.hash_password(password)
             self.cursor.execute("""INSERT INTO Clients
-                (username, password)
+                (client_username, client_password)
                 VALUES (?, ?)""", (username, hashed_password))
             self.conn.commit()
             return True
@@ -53,4 +54,21 @@ class BankDatabaseManager:
             return False
 
     def login(self, username, password):
-        pass
+        get_user_query = """SELECT client_id,
+                                client_username,
+                                client_balance,
+                                client_message,
+                                client_email
+        FROM Clients
+        WHERE client_username = ? AND client_password = ?
+        LIMIT 1"""
+
+        hashed_password = self.hash_password(password)
+
+        self.cursor.execute(get_user_query, (username, hashed_password))
+        user = self.cursor.fetchone()
+
+        if user:
+            return Client(user[0], user[1], user[2], user[3], user[4])
+        else:
+            False
