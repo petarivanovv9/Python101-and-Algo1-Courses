@@ -1,4 +1,5 @@
 import getpass
+from sql_manager import BankDatabaseManager
 
 
 # Bank Command Interface
@@ -105,7 +106,10 @@ class BankCI:
         pass
 
     def change_email(self, logged_user):
-        pass
+        new_email = input("Enter new email: ")
+        self.controller.change_email(new_email, logged_user)
+
+        print("Email changed!")
 
     def show_email(self, logged_user):
         pass
@@ -115,4 +119,26 @@ class BankCI:
             print (line)
 
     def reset_password(self):
-        pass
+        username = input('Your username> ')
+        user_email = input('Your email> ')
+        is_email_valid = self.controller.validate_email(username, user_email)
+
+        if is_email_valid:
+            self.controller.send_email(username, user_email)
+            response = input('Enter code from email> ')
+            is_response_valid = self.controller.check_user_response(
+                username, response)
+
+            if is_response_valid:
+                new_password = getpass.getpass(
+                    prompt="Enter your new password: ")
+
+                while BankDatabaseManager.validate_password(username, new_password) is False:
+                    new_password = getpass.getpass(
+                        prompt="Enter your new password: ")
+
+                print (self.controller.reset_password(username, new_password))
+            else:
+                print ("Wrong code!")
+        else:
+            print ("Invalid email!")

@@ -61,7 +61,7 @@ class BankDatabaseManager:
             else:
                 return False
         except:
-                return False
+            return False
 
     def login(self, username, password):
         get_user_query = """SELECT client_id,
@@ -103,7 +103,40 @@ class BankDatabaseManager:
             ON Clients.client_id = Blocked_Users.blocked_client_id""")
 
     def update_blocked_users(self):
-        time = datetime.datetime.now() - datetime.timedelta(minutes=BLOCK_FOR_N_MINUTES)
+        time = datetime.datetime.now() - \
+            datetime.timedelta(minutes=BLOCK_FOR_N_MINUTES)
         self.cursor.execute("""DELETE FROM Blocked_Users
             WHERE blocked_client_date <= ? """, (time, ))
         self.conn.commit()
+
+    def reset_password(self, username, new_password):
+        self.cursor.execute("""UPDATE Clients
+            SET client_password = ?
+            WHERE client_username = ?""", (BankDatabaseManager.hash_password(new_password), username))
+        self.conn.commit()
+
+    def change_email(self, new_email, logged_user):
+        self.cursor.execute("""UPDATE Clients
+            SET client_email = ?
+            WHERE client_id = ?""", (new_email, logged_user.get_id()))
+        self.conn.commit()
+        logged_user.set_email(new_email)
+
+    def get_email(self, username):
+        self.cursor.execute("""SELECT client_email
+            FROM Clients
+            WHERE client_username = ?""", (username, ))
+
+        return self.cursor.fetchone()[0]
+
+    def change_message(self, new_message, logged_user):
+        pass
+
+    def change_password(self, new_password, logged_user):
+        pass
+
+    def get_hashed_password(self, username):
+        self.cursor.execute("""SELECT client_password
+            FROM Clients
+            WHERE client_username = ?""", (username, ))
+        return self.cursor.fetchone()[0]
