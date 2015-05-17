@@ -85,4 +85,5 @@ class BankCI:
         pass
 
     def help_user(self):
-        pass
+        for line in self.controller.help_user():
+            print (line)

@@ -1,7 +1,11 @@
+from settings import BLOCK_AFTER_N_FAILED_ATTEMPTS, BLOCK_FOR_N_MINUTES
+
+
 class BankController:
 
     def __init__(self, manager):
         self.manager = manager
+        self.blocked_users = {}
 
     def register(self, username, password):
         if self.manager.register(username, password):
@@ -10,11 +14,21 @@ class BankController:
             return [False, "Your password is not strong enough!"]
 
     def login(self, username, password):
+        self.update_blocked_users()
         logged_user = self.manager.login(username, password)
 
-        if logged_user:
+        if logged_user and not self.is_user_blocked(logged_user.get_username()):
             return [logged_user, "Login Successfull!"]
         else:
+            # username = logged_user.get_username()
+            if username in self.blocked_users:
+                self.blocked_users[username] += 1
+
+                if self.blocked_users[username] >= BLOCK_AFTER_N_FAILED_ATTEMPTS:
+                    self.block_user(username)
+            else:
+                self.blocked_users.update({username: 1})
+
             return [False, "Login failed!"]
 
     @staticmethod
@@ -44,3 +58,20 @@ class BankController:
         result.append("show-message - for showing users message")
 
         return result
+
+    def is_user_blocked(self, username):
+        blocked_users = self.manager.get_blocked_users()
+        list_blocked_users = []
+
+        for item in blocked_users:
+            list_blocked_users.append(item[0])
+
+        return (username in list_blocked_users)
+
+    def block_user(self, username):
+        self.manager.add_blocked_user(username)
+
+        return "{} is blocked! for {} minutes".format(username, BLOCK_FOR_N_MINUTES)
+
+    def update_blocked_users(self):
+        self.manager.update_blocked_users()

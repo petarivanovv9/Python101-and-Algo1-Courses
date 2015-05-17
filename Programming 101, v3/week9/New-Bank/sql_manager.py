@@ -3,6 +3,8 @@ import os
 import re
 import hashlib
 from Client import Client
+import datetime
+from settings import BLOCK_FOR_N_MINUTES
 
 
 class BankDatabaseManager:
@@ -72,3 +74,31 @@ class BankDatabaseManager:
             return Client(user[0], user[1], user[2], user[3], user[4])
         else:
             False
+
+    def is_user_registered(self):
+        pass
+
+    def add_blocked_user(self, username):
+        self.cursor.execute("""SELECT client_id FROM Clients
+            WHERE client_username = ?""", (username, ))
+        cleint_id = self.cursor.fetchone()[0]
+        blocked_on_date = datetime.datetime.now()
+
+        self.cursor.execute("""INSERT INTO Blocked_Users
+        (blocked_client_id, blocked_client_date)
+        VALUES (?, ?)""", (cleint_id, blocked_on_date))
+        self.conn.commit()
+
+    def get_blocked_users(self):
+        return self.cursor.execute("""SELECT client_username FROM Clients
+            INNER JOIN Blocked_Users
+            ON Clients.client_id = Blocked_Users.blocked_client_id""")
+
+    def update_blocked_users(self):
+        time = datetime.datetime.now() - datetime.timedelta(minutes=BLOCK_FOR_N_MINUTES)
+        self.cursor.execute("""DELETE FROM Blocked_Users
+            WHERE blocked_client_date <= ? """, (time, ))
+        self.conn.commit()
+
+
+# Bam123@Bam
