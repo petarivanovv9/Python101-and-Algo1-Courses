@@ -12,6 +12,9 @@ class Client():
     def get_balance(self):
         return self.__balance
 
+    def set_balance(self, new_balance):
+        self.__balance = new_balance
+
     def get_id(self):
         return self.__id
 

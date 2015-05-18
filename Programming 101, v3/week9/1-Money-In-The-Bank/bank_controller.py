@@ -63,6 +63,8 @@ class BankController:
         result.append("show-message - for showing users message")
         result.append("show-email - for showing users email")
         result.append("change-email - for changing users email")
+        result.append("deposit - deposit money to your balance")
+        result.append("withdraw - withdraw money from your balance")
 
         return result
 
@@ -108,11 +110,16 @@ class BankController:
     def check_user_response(self, username, user_response):
         return user_response == self.manager.get_hashed_password(username)
 
-    def deposit(self, logged_user, money, TAN_code):
-        pass
+    def deposit_money(self, logged_user, amount_money):
+        self.manager.deposit_money(logged_user, amount_money)
 
-    def withdraw(self, logged_user, money, TAN_code):
-        pass
+        return "Transaction successful!"
+
+    def withdraw_money(self, logged_user, amount_money):
+        if self.manager.withdraw_money(logged_user, amount_money):
+            return "Withdraw successful!"
+        else:
+            return "Withdraw failed. No enough money in your balance."
 
     @staticmethod
     def generate_tans(number):

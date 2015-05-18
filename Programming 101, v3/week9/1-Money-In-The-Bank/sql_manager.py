@@ -156,3 +156,37 @@ class BankDatabaseManager:
             FROM Clients
             WHERE client_username = ?""", (username, ))
         return self.cursor.fetchone()[0]
+
+    def get_balance(self, logged_user):
+        current_user_id = logged_user.get_id()
+        self.cursor.execute("""SELECT client_balance
+            FROM Clients
+            WHERE client_id = ?""", (current_user_id, ))
+
+        return float(self.cursor.fetchone()[0])
+
+    def deposit_money(self, logged_user, amount_money):
+        current_user_id = logged_user.get_id()
+        money = self.get_balance(logged_user) + amount_money
+        self.cursor.execute("""UPDATE Clients
+            SET client_balance = ?
+            WHERE client_id = ?""", (money, current_user_id))
+        self.conn.commit()
+
+        logged_user.set_balance(money)
+
+    def withdraw_money(self, logged_user, amount_money):
+        current_user_id = logged_user.get_id()
+        money = self.get_balance(logged_user) - amount_money
+
+        if money < 0:
+            return False
+
+        self.cursor.execute("""UPDATE Clients
+            SET client_balance = ?
+            WHERE client_id = ?""", (money, current_user_id))
+        self.conn.commit()
+
+        logged_user.set_balance(money)
+
+        return True

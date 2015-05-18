@@ -14,10 +14,17 @@ CREATE TABLE IF NOT EXISTS Blocked_Clients(
     FOREIGN KEY (blocked_client_id) REFERENCES Clients(client_id)
 );
 
-CREATE TABLE IF NOT EXISTS BankAccounts(
+CREATE TABLE IF NOT EXISTS Bank_Accounts(
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     bank_acc_balance INTEGER,
     bank_acc_name TEXT,
     bank_acc_client_id INTEGER,
     FOREIGN KEY (bank_acc_client_id) REFERENCES Clients(client_id)
+);
+
+CREATE TABLE IF NOT EXISTS Clients_Tans(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    client_id INTEGER,
+    tan_code TEXT,
+    FOREIGN KEY (client_id) REFERENCES Clients(client_id)
 );

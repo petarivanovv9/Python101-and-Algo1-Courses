@@ -63,6 +63,12 @@ class BankCI:
             elif command == "help":
                 self.help_user()
 
+            elif command == "deposit":
+                self.deposit_money(logged_user)
+
+            elif command == "withdraw":
+                self.withdraw_money(logged_user)
+
             else:
                 print ("Not a valid command!")
 
@@ -152,8 +158,12 @@ class BankCI:
         else:
             print ("Invalid email!")
 
-    def deposit(self, logged_user):
-        pass
+    def deposit_money(self, logged_user):
+        amount_money = input("Enter the amount of money you want to deposit in your balance: ")
 
-    def withdraw(self, logged_user):
-        pass
+        print (self.controller.deposit_money(logged_user, float(amount_money)))
+
+    def withdraw_money(self, logged_user):
+        amount_money = input("Enter the amount of money you want to withdraw from your balance: ")
+
+        print (self.controller.withdraw_money(logged_user, float(amount_money)))
