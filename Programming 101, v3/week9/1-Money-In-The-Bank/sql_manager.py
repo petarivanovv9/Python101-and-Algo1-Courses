@@ -92,20 +92,20 @@ class BankDatabaseManager:
         cleint_id = self.cursor.fetchone()[0]
         blocked_on_date = datetime.datetime.now()
 
-        self.cursor.execute("""INSERT INTO Blocked_Users
+        self.cursor.execute("""INSERT INTO Blocked_Clients
         (blocked_client_id, blocked_client_date)
         VALUES (?, ?)""", (cleint_id, blocked_on_date))
         self.conn.commit()
 
     def get_blocked_users(self):
         return self.cursor.execute("""SELECT client_username FROM Clients
-            INNER JOIN Blocked_Users
-            ON Clients.client_id = Blocked_Users.blocked_client_id""")
+            INNER JOIN Blocked_Clients
+            ON Clients.client_id = Blocked_Clients.blocked_client_id""")
 
     def update_blocked_users(self):
         time = datetime.datetime.now() - \
             datetime.timedelta(minutes=BLOCK_FOR_N_MINUTES)
-        self.cursor.execute("""DELETE FROM Blocked_Users
+        self.cursor.execute("""DELETE FROM Blocked_Clients
             WHERE blocked_client_date <= ? """, (time, ))
         self.conn.commit()
 
@@ -130,10 +130,26 @@ class BankDatabaseManager:
         return self.cursor.fetchone()[0]
 
     def change_message(self, new_message, logged_user):
-        pass
+        current_user_id = logged_user.get_id()
+        self.cursor.execute("""UPDATE Clients
+            SET client_message = ?
+            WHERE client_id = ?""", (new_message, current_user_id))
+        self.conn.commit()
+
+    def get_message(self, username):
+        self.cursor.execute("""SELECT client_message
+            FROM Clients
+            WHERE client_username = ?""", (username, ))
+
+        return self.cursor.fetchone()[0]
 
     def change_password(self, new_password, logged_user):
-        pass
+        current_user_id = logged_user.get_id()
+        new_hashed_password = BankDatabaseManager.hash_password(new_password)
+        self.cursor.execute("""UPDATE Clients
+            SET client_password = ?
+            WHERE client_id = ?""", (new_hashed_password, current_user_id))
+        self.conn.commit()
 
     def get_hashed_password(self, username):
         self.cursor.execute("""SELECT client_password

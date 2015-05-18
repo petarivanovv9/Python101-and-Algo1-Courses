@@ -49,11 +49,11 @@ class BankController:
 
         return result
 
-    def change_pass(self, new_pass, logged_user):
-        pass
+    def change_password(self, new_password, logged_user):
+        self.manager.change_password(new_password, logged_user)
 
     def change_message(self, new_message, logged_user):
-        pass
+        self.manager.change_message(new_message, logged_user)
 
     @staticmethod
     def help_user():
@@ -90,6 +90,9 @@ class BankController:
 
     def show_email(self, logged_user):
         return self.manager.get_email(logged_user.get_username())
+
+    def show_message(self, logged_user):
+        return self.manager.get_message(logged_user.get_username())
 
     def validate_email(self, username, email):
         return email == self.manager.get_email(username)

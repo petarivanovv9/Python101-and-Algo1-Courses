@@ -49,10 +49,10 @@ class BankCI:
                 self.change_pass(logged_user)
 
             elif command == "change-message":
-                self.change_messagel(logged_user)
+                self.change_message(logged_user)
 
             elif command == "show-message":
-                print(logged_user.get_message())
+                self.show_message(logged_user)
 
             elif command == "change-email":
                 self.change_email(logged_user)
@@ -99,11 +99,13 @@ class BankCI:
         for line in self.controller.show_info(logged_user):
             print (line)
 
-    def change_pass(self, logged_user):
-        pass
+    def change_password(self, logged_user):
+        new_password = input("Enter new password: ")
+        self.controller.change_password(new_password, logged_user)
 
     def change_message(self, logged_user):
-        pass
+        new_message = input("Enter new message: ")
+        self.controller.change_message(new_message, logged_user)
 
     def change_email(self, logged_user):
         new_email = input("Enter new email: ")
@@ -112,7 +114,14 @@ class BankCI:
         print("Email changed!")
 
     def show_email(self, logged_user):
-        pass
+        user_email = self.controller.show_email(logged_user)
+
+        print ("Your email is: {}".format(user_email))
+
+    def show_message(self, logged_user):
+        message = self.controller.show_message(logged_user)
+
+        print ("Your message is: {}".format(message))
 
     def help_user(self):
         for line in self.controller.help_user():
