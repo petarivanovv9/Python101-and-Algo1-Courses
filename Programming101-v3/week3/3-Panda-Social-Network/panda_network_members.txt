@@ -1,1 +1,0 @@
-{"Rado": {"email": "rado@pandamail.com", "gender": "male", "name": "Rado"}, "Ivo": {"email": "ivo@pandamail.com", "gender": "male", "name": "Ivo"}, "Gosho": {"email": "gosho@mail.bg", "gender": "male", "name": "Gosho"}, "Pesho": {"email": "pesho@mail.bg", "gender": "male", "name": "Pesho"}, "Mimi": {"email": "mimi@mail.bg", "gender": "female", "name": "Mimi"}}

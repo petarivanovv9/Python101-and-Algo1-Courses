@@ -1,1 +1,0 @@
-{"Rado": ["Ivo", "Mimi"], "Ivo": ["Rado", "Gosho", "Mimi"], "Gosho": ["Ivo"], "Pesho": [], "Mimi": ["Ivo", "Rado"]}
