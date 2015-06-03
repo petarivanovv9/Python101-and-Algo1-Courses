@@ -68,6 +68,68 @@ def is_expression_valid(data):
     return True
 
 
+def evaluate_expression(data):
+    result = 0
+
+    is_big_bracket = False
+    is_medium_bracket = False
+    is_small_bracket = False
+
+    # if data[-1] == '{' and data[0] == '}':
+    #     is_big_bracket = True
+
+    data = list(data)[::-1]
+    counter = 0
+    for i in data:
+        if i == '}':
+            is_big_bracket = True
+            counter = 0
+            continue
+        if i == ']':
+            is_medium_bracket = True
+            counter = 0
+            continue
+        elif i == ')':
+            is_small_bracket = True
+            counter = 0
+            continue
+        elif i == '{':
+            is_big_bracket = False
+            counter = 0
+            continue
+        elif i == '[':
+            is_medium_bracket = False
+            counter = 0
+            continue
+        elif i == '(':
+            is_small_bracket = False
+            counter = 0
+            continue
+
+        if is_big_bracket:
+            base = 10 ** counter
+            if is_medium_bracket:
+                result += base * int(i) * 2
+            elif is_small_bracket:
+                result += base * int(i) * 2
+            else:
+                result += base * int(i)
+            counter += 1
+        elif is_medium_bracket:
+            base = 10 ** counter
+            if is_small_bracket:
+                result += base * int(i) * 2
+            else:
+                result += base * int(i)
+            counter += 1
+        elif is_small_bracket:
+            base = 10 ** counter
+            result += base * int(i)
+            counter += 1
+
+    return result
+
+
 def main():
 
     while True:
@@ -75,7 +137,7 @@ def main():
         expression = input("Enter an expression: ")
 
         if is_expression_valid(expression):
-            print("True")
+            print("Result: {}".format(evaluate_expression(expression)))
         else:
             print("NO")
 
