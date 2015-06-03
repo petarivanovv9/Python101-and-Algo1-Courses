@@ -132,14 +132,12 @@ def evaluate_expression(data):
 
 def main():
 
-    while True:
+    expression = input("Enter an expression: ")
 
-        expression = input("Enter an expression: ")
-
-        if is_expression_valid(expression):
-            print("Result: {}".format(evaluate_expression(expression)))
-        else:
-            print("NO")
+    if is_expression_valid(expression):
+        print("Result: {}".format(evaluate_expression(expression)))
+    else:
+        print("NO")
 
 
 if __name__ == '__main__':
