@@ -53,24 +53,24 @@ public:
 	}
 };
 
-int main() {
-
-	Node node1(1, NULL, NULL);
-	Node node2(1, NULL, NULL);
-	Node node3(1, NULL, NULL);
-	Node node4(1, NULL, NULL);
-	Node node5(9, &node1, &node2);
-	Node node6(9, &node3, &node4);
-	Node node7(6, &node5, &node6);
-	
-	MinMaxHeap test;
-
-	if (test.isMinMax(&node7)) {
-		std::cout << "Yes" << std::endl;
-	}
-	else {
-		std::cout << "No" << std::endl;
-	}
-
-	return 0;
-}
+//int main() {
+//
+//	Node node1(1, NULL, NULL);
+//	Node node2(1, NULL, NULL);
+//	Node node3(1, NULL, NULL);
+//	Node node4(1, NULL, NULL);
+//	Node node5(9, &node1, &node2);
+//	Node node6(9, &node3, &node4);
+//	Node node7(6, &node5, &node6);
+//	
+//	MinMaxHeap test;
+//
+//	if (test.isMinMax(&node7)) {
+//		std::cout << "Yes" << std::endl;
+//	}
+//	else {
+//		std::cout << "No" << std::endl;
+//	}
+//
+//	return 0;
+//}
