@@ -1,5 +1,9 @@
 #include <iostream>
+#include <vector>
 
+using namespace std;
+
+int n;
 
 class Node {
 public:
@@ -52,6 +56,61 @@ public:
 		return isLeftPartOK && isRightPartOK;
 	}
 };
+
+int main() {
+
+	MinMaxHeap test;
+
+	cin >> n;
+
+	if (n <= 0) {
+		return 0;
+	}
+	else if (n == 1) {
+		cout << "YES" << '\n';
+		return 0;
+	}
+
+	int current;
+	cin >> current;
+
+	Node* Root = new Node(current, NULL, NULL);
+	Node** Arr = new Node*[n];
+	Arr[0] = Root;
+	int currentIndex = 0;
+	Node* CurrentParent = Arr[currentIndex++];
+
+	for (int i = 1; i < n; i++) {
+		cin >> current;
+
+		Arr[i] = new Node(current, NULL, NULL);
+
+		if (CurrentParent->left == NULL) {
+			CurrentParent->left = Arr[i];
+		}
+		else if (CurrentParent->right == NULL) {
+			CurrentParent->right = Arr[i];
+		}
+		else {
+			CurrentParent = Arr[currentIndex++];
+			CurrentParent->left = Arr[i];
+		}
+
+	}
+
+	if (test.isMinMax(Root)) {
+		cout << "YES" << '\n';
+	}
+	else {
+		cout << "NO" << '\n';
+	}
+
+	delete[] Arr;
+
+	return 0;
+}
+
+
 
 //int main() {
 //
