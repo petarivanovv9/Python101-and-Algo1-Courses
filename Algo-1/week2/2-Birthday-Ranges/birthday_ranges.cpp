@@ -1,84 +1,53 @@
-#include <vector>
 #include <iostream>
+#include <vector>
 #include <algorithm>
 
-class Pair {
-public:
-	int start;
-	int end;
-};
+using namespace std;
 
-class BirthdayRanges {
-public:
+int birthdaysCounter[366] = { 0 };
+int n;
+int m;
 
-	// Returns a vector with the number of people born in the specific ranges.
-	std::vector<int> birthdaysCount(std::vector<int>& birthdays, std::vector<std::pair<int, int> >& ranges) {
-		
-		int histogram[366] = { 0 };
+void getBirthdaysCount() {
+	cin >> n;
+	cin >> m;
 
-		std::vector<int> results;
-		//std::sort(birthdays.begin(), birthdays.end());
+	vector<int> birthdays(n);
 
-		for (int i = 0; i < 366; i++) {
-			histogram[birthdays[i]]++;
-		}
-
-		for (int i = 1; i < 366; i++) {
-			histogram[i] += histogram[i - 1];
-		}
-
-		int r1, r2;
-
-		for (int i = 0; i != ranges.size(); i++) {
-			r1 = ranges[i].first;
-			r2 = ranges[i].second;
-
-			results[i] = histogram[r2] - histogram[r1];
-		}
-
-		return results;
+	for (int i = 0; i < n; i++) {
+		cin >> birthdays[i];
 	}
-};
+	sort(birthdays.begin(), birthdays.end());
+
+	int counter = 0;
+	int index = 0;
+
+	for (int i = 0; i < 366; i++) {
+		birthdaysCounter[i] = counter;
+
+		while (index < n && birthdays[index] == i) {
+			birthdaysCounter[i]++;
+			index++;
+			counter++;
+		}
+
+	}
+
+	int leftRange;
+	int rightRange;
+
+	for (int i = 0; i < m; i++) {
+		cin >> leftRange;
+		cin >> rightRange;
+		
+		int result = birthdaysCounter[rightRange] - (leftRange > 0 ? birthdaysCounter[leftRange - 1] : 0);
+		cout << result << '\n';
+	}
+}
 
 int main() {
 
-	int numBirthdays;
-	int numRanges;
-
-	std::cout << "number of birthdays: ";
-	std::cin >> numBirthdays;
-
-	std::cout << "number of ranges: ";
-	std::cin >> numRanges;
-
-	std::vector<int> birthdays(numBirthdays);
-	int birthday;
-	for (int i = 0; i < numBirthdays; i++) {
-		std::cout << "birthday: ";
-		std::cin >> birthday;
-		birthdays[i] = birthday;
-	}
-
-	int first;
-	int last;
-
-	std::vector<std::pair<int, int> > ranges(numRanges);
-	for (int i = 0; i < numRanges; i++) {
-		//std::cout << "------" << std::endl;
-		std::cout << "first: ";
-		std::cin >> first;
-		std::cout << "last: ";
-		std::cin >> last;
-		ranges[i] = std::make_pair(first, last);
-	}
-
-	BirthdayRanges test;
-
-	std::vector<int> result = test.birthdaysCount(birthdays, ranges);
-	//for (int i = 0; i < result.size(); i++) {
-	//	std::cout << result[i] << std::endl;
-	//}
-
+	getBirthdaysCount();
 
 	return 0;
 }
