@@ -2,6 +2,7 @@
 #include <climits>
 #include <cstring>
 #include <string>
+#include <stdio.h>
 
 using namespace std;
 
@@ -67,7 +68,7 @@ public:
 				min = (min > tree[endIndex] ? tree[endIndex] : min);
 			}
 
-			if (startIndex % 2 == 0) {
+			if (startIndex % 2) {
 				min = (min > tree[startIndex] ? tree[startIndex] : min);
 				startIndex /= 2;
 				startIndex++;
@@ -107,14 +108,27 @@ int main() {
 
 	for (int i = 0; i < q; i++) {
 		string command;
+		char s[3];
 		int a, b;
-		cin >> command;
-		cin >> a >> b;
+		//cin >> s >> a >> b;
 
-		if (command == "min") {
-			cout << rmq.min(a, b) << "\n";
-		}
-		else if (command == "set") {
+		////if (command == "min") {
+		//if (strcmp(s, "min") == 0) {
+
+		//	cout << "in min" << "\n";
+		//	cout << rmq.min(a, b) << "\n";
+		//}
+		//// else if (command == "set") {
+		//else {
+		//	cout << "in set" << "\n";
+		//	rmq.set(a, b);
+		//}
+
+		scanf("%s%d%d", s, &a, &b);
+
+		if (strcmp(s, "min") == 0)
+			printf("%d\n", rmq.min(a, b));
+		else {
 			rmq.set(a, b);
 		}
 
