@@ -33,3 +33,17 @@ for x in my_data:
 print(40 * '-')
 
 
+keys = [1, 2, 3]
+keys.append([4, 5, 6])
+# {key: "Panda" for key in keys}  # TypeError: unhashable type: 'list'
+
+
+# TypeError: object of type 'generator' has no len()
+# len(x ** 2 for x in range(5))
+print(len([x ** 2 for x in range(5)]))
+
+bum = {1, 2, 3, 4, 5}
+print(len(bum))
+
+# AttributeError: 'set' object has no attribute 'count'
+# {1, 2, 3, 3, 3, 4, 5}.count(3)
