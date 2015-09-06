@@ -38,16 +38,16 @@ double Roots::squareRoot(int number) {
 	return binarySearch(0.000001, number);
 }
 
-//int main() {
-//
-//	int number;
-//	std::cin >> number;
-//
-//	Roots test;
-//
-//	std::cout << std::fixed;
-//	std::cout << std::setprecision(5) << test.squareRoot(number) << std::endl;
-//
-//	return 0;
-//
-//}
+int main() {
+
+	int number;
+	std::cin >> number;
+
+	Roots test;
+
+	std::cout << std::fixed;
+	std::cout << std::setprecision(5) << test.squareRoot(number) << std::endl;
+
+	return 0;
+
+}
