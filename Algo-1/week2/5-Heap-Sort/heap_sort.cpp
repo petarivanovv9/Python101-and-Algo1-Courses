@@ -27,25 +27,25 @@ void HeapSort::sort(int* sequence, int size) {
 
 void HeapSort::sift(int* pArr, int pos, int size) {
 	
-	// Взимаме елемента, който трябва да се позиционира
+	// Г‚Г§ГЁГ¬Г Г¬ГҐ ГҐГ«ГҐГ¬ГҐГ­ГІГ , ГЄГ®Г©ГІГ® ГІГ°ГїГЎГўГ  Г¤Г  Г±ГҐ ГЇГ®Г§ГЁГ¶ГЁГ®Г­ГЁГ°Г 
 	int elem = pArr[pos];
 
-	int ni = pos; // индекс на текущ възел
-	int si = pos * 2 + 1; // индекс на текущ наследник
+	int ni = pos; // ГЁГ­Г¤ГҐГЄГ± Г­Г  ГІГҐГЄГіГ№ ГўГєГ§ГҐГ«
+	int si = pos * 2 + 1; // ГЁГ­Г¤ГҐГЄГ± Г­Г  ГІГҐГЄГіГ№ Г­Г Г±Г«ГҐГ¤Г­ГЁГЄ
 
 	while (si < size) {
 
-		// в момента succ е индексът на левия наследник.
-		// ако има десен наследник и той е по-голям,
-		// трябва да преместим succ
+		// Гў Г¬Г®Г¬ГҐГ­ГІГ  succ ГҐ ГЁГ­Г¤ГҐГЄГ±ГєГІ Г­Г  Г«ГҐГўГЁГї Г­Г Г±Г«ГҐГ¤Г­ГЁГЄ.
+		// Г ГЄГ® ГЁГ¬Г  Г¤ГҐГ±ГҐГ­ Г­Г Г±Г«ГҐГ¤Г­ГЁГЄ ГЁ ГІГ®Г© ГҐ ГЇГ®-ГЈГ®Г«ГїГ¬,
+		// ГІГ°ГїГЎГўГ  Г¤Г  ГЇГ°ГҐГ¬ГҐГ±ГІГЁГ¬ succ
 		if (si < size - 1 && pArr[si] < pArr[si + 1]) {
 			si++;
 		}
 
-		// Вече succ e позицията на по-големия от двата наследника
+		// Г‚ГҐГ·ГҐ succ e ГЇГ®Г§ГЁГ¶ГЁГїГІГ  Г­Г  ГЇГ®-ГЈГ®Г«ГҐГ¬ГЁГї Г®ГІ Г¤ГўГ ГІГ  Г­Г Г±Г«ГҐГ¤Г­ГЁГЄГ 
 
-		// Ако елементът, който местим е по-голям от по-големия наследник,
-		// приключваме работата
+		// ГЂГЄГ® ГҐГ«ГҐГ¬ГҐГ­ГІГєГІ, ГЄГ®Г©ГІГ® Г¬ГҐГ±ГІГЁГ¬ ГҐ ГЇГ®-ГЈГ®Г«ГїГ¬ Г®ГІ ГЇГ®-ГЈГ®Г«ГҐГ¬ГЁГї Г­Г Г±Г«ГҐГ¤Г­ГЁГЄ,
+		// ГЇГ°ГЁГЄГ«ГѕГ·ГўГ Г¬ГҐ Г°Г ГЎГ®ГІГ ГІГ 
 		if (elem > pArr[si]) {
 			break;
 		}
@@ -58,29 +58,29 @@ void HeapSort::sift(int* pArr, int pos, int size) {
 	pArr[ni] = elem;
 }
 
-//int main() {
-//
-//	int sizeArr;
-//	//std::cout << "sizeArr: ";
-//	std::cin >> sizeArr;
-//
-//	int* arr = new (std::nothrow) int[sizeArr];
-//
-//	for (int i = 0; i < sizeArr; i++) {
-//		std::cin >> arr[i];
-//	}
-//
-//	HeapSort test;
-//
-//	test.sort(arr, sizeArr);
-//
-//	//std::cout << "result:" << std::endl;
-//	for (int i = 0; i < sizeArr; i++) {
-//		//std::cout << arr[i] << " ";
-//		std::cout << arr[i];
-//	}
-//	//std::cout << std::endl;
-//
-//	return 0;
-//
-//}
+int main() {
+
+	int sizeArr;
+	//std::cout << "sizeArr: ";
+	std::cin >> sizeArr;
+
+	int* arr = new (std::nothrow) int[sizeArr];
+
+	for (int i = 0; i < sizeArr; i++) {
+		std::cin >> arr[i];
+	}
+
+	HeapSort test;
+
+	test.sort(arr, sizeArr);
+
+	//std::cout << "result:" << std::endl;
+	for (int i = 0; i < sizeArr; i++) {
+		//std::cout << arr[i] << " ";
+		std::cout << arr[i];
+	}
+	//std::cout << std::endl;
+
+	return 0;
+
+}
