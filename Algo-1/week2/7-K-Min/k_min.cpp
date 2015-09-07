@@ -31,30 +31,30 @@ public:
 	}
 };
 
-//int main() {
-//
-//	//std::vector<int> numbers = { 9, 5, 11, 2, 4, 7, 8 };
-//	int sizeNumbers;
-//	//std::cout << "sizeNumbers: ";
-//	std::cin >> sizeNumbers;
-//
-//	KMin test;
-//	
-//	int k;
-//	//std::cout << "k: ";
-//	std::cin >> k;
-//
-//	std::vector<int> numbers(sizeNumbers);
-//	int index = 0;
-//	while (sizeNumbers > 0) {
-//		sizeNumbers--;
-//		std::cin >> numbers[index];
-//		index++;
-//	}
-//
-//	//std::cout << k << "-th smallest: " << test.kthMinimum(numbers, k) << std::endl;
-//	std::cout <<test.kthMinimum(numbers, k);
-//
-//	
-//	return 0;
-//}
+int main() {
+
+	//std::vector<int> numbers = { 9, 5, 11, 2, 4, 7, 8 };
+	int sizeNumbers;
+	//std::cout << "sizeNumbers: ";
+	std::cin >> sizeNumbers;
+
+	KMin test;
+	
+	int k;
+	//std::cout << "k: ";
+	std::cin >> k;
+
+	std::vector<int> numbers(sizeNumbers);
+	int index = 0;
+	while (sizeNumbers > 0) {
+		sizeNumbers--;
+		std::cin >> numbers[index];
+		index++;
+	}
+
+	//std::cout << k << "-th smallest: " << test.kthMinimum(numbers, k) << std::endl;
+	std::cout <<test.kthMinimum(numbers, k);
+
+	
+	return 0;
+}
