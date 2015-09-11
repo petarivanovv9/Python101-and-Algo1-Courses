@@ -91,49 +91,27 @@ public:
 };
 
 int main() {
+	int n,q;
+  	scanf("%d%d",&n,&q);
 
-	cin.sync_with_stdio(false);
-	cin.tie(0);
+  	RMQ rmq(n);
 
-	int n, q;
-	cin >> n >> q;
-	
-	RMQ rmq(n);
+  	for(int i=0;i<n;i++) {
+    		int temp;
+    		scanf("%d",&temp);
+    		rmq.set(i,temp);
+  	}
 
-	for (int i = 0; i < n; i++) {
-		int temp;
-		cin >> temp;
-		rmq.set(i, temp);
-	}
+  	for(int i=0;i<q;i++) {
+    		char s[3];
+    		int a,b;
+    		scanf("%s%d%d",s,&a,&b);
+    		if (strcmp(s,"min")==0) // if s is "min"
+      			printf("%d\n",rmq.min(a,b));
+    		else {
+      			rmq.set(a,b);
+    		}		
+  	}
 
-	for (int i = 0; i < q; i++) {
-		string command;
-		char s[3];
-		int a, b;
-		//cin >> s >> a >> b;
-
-		////if (command == "min") {
-		//if (strcmp(s, "min") == 0) {
-
-		//	cout << "in min" << "\n";
-		//	cout << rmq.min(a, b) << "\n";
-		//}
-		//// else if (command == "set") {
-		//else {
-		//	cout << "in set" << "\n";
-		//	rmq.set(a, b);
-		//}
-
-		scanf("%s%d%d", s, &a, &b);
-
-		if (strcmp(s, "min") == 0)
-			printf("%d\n", rmq.min(a, b));
-		else {
-			rmq.set(a, b);
-		}
-
-	}
-
-
-	return 0;
+  	return 0;
 }
