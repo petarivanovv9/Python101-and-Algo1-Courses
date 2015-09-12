@@ -1,4 +1,4 @@
-# Birthday ranges 2 implemented with Indexed Tree
+# Birthday ranges 2 implemented with Binary Indexed Tree
 
 
 class IndexedTree:
