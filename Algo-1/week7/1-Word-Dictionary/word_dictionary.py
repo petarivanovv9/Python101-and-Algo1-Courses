@@ -70,20 +70,36 @@ def main():
     # print(w.contains('rectangle'))
     # print(w.contains('square'))
 
-    N = int(input())
+    # N = int(input())
 
-    while N != 0:
-        c = input()
-        command = c.split()
+    # while N != 0:
+    #     c = input()
+    #     command = c.split()
 
-        if command[0] == 'insert':
-            w.insert(command[1])
-        elif command[0] == 'contains':
-            print(w.contains(command[1]))
-        else:
-            pass
+    #     if command[0] == 'insert':
+    #         w.insert(command[1])
+    #     if command[0] == 'contains':
+    #         print(w.contains(command[1]))
+    #     # else:
+    #     #     pass
 
-        N -= 1
+    #     N -= 1
+
+    num = int(input())
+    res = list()
+    for i in range(num):
+        j = input()
+        if j.split()[0] == 'insert':
+            w.insert(j.split()[1])
+        elif j.split()[0] == 'contains':
+            if w.contains(j.split()[1]) is False:
+                res.append("false")
+            else:
+                res.append("true")
+                # res.append(w.contains(j.split()[1]))
+
+    for r in res:
+        print(r)
 
 
 if __name__ == '__main__':
