@@ -17,8 +17,8 @@ class Anagrams:
 
 
 def main():
-    word_1 = str(input())
-    word_2 = str(input())
+    word_1 = input()
+    word_2 = input()
 
     if Anagrams.are_anagrams(word_1, word_2) is True:
         print("ANAGRAMS")
