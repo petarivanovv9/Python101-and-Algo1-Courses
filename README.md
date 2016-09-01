@@ -1,3 +1,3 @@
-# HackBulgaria
+# Programming101-Python - v3
 
-Tasks from HackBulgaria courses
+# Algo - v1
