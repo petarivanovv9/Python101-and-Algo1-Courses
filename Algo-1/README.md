@@ -1,6 +1,7 @@
 # Algo-1
 
-The first edition of the algo course in Hack Bulgaria
+# All tasks during Algo v1 course in Hack Bulgaria.
+Link of the course: https://github.com/HackBulgaria/Algo-1
 
 ## Partners
 
